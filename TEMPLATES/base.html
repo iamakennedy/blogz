@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <title>{{title}},</title>
-        <style>
-            .error {
-                color: red;
-            }
-        </style>
-    </head>
-    <body>
-        <nav>
-            <a href="/">Blog Entries</a>
-            <a href="/newpost">Write a Post</a>
-        </nav>
+<head>
+    <title>Blogz</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class='container'>            
+               <a href="/index">Home</a>&nbsp;&nbsp;<a href="/blog">Main Blog Page</a>&nbsp;&nbsp;
+                <a href="/newpost">Write a new Blog Entry</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {% if session['username']%}
+                <a href="/logout">Logout</a>
+                {%else%}
+                <a valign="right" href="/login">Login</a>
+                {%endif%}
+        </div>
+    </nav>
+    <div class='container'>
+    <br>
+    <br>
+    <h1>{{header}}</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    <ul>
+    {% for category, message in messages %}
+        <li class="{{category}}">{{message}}</li>
+    {% endfor %}
+    </ul>
+    {% endwith %}
 
-    <div> 
-            {% with messages = get_flashed_messages(with_categories = True) %}
-            <ul>
-            {% for category, message in messages %}
-                <li>{{message}}</li>
-            {% endfor %}
-            </ul>
-        {% endwith %}
+    {% block content %}
+    {% endblock %}
     </div>
-    <div>
-
-        {% block content %}
-        {% endblock %}
-    </div>
-
-    </body>
+</body>
 </html>
